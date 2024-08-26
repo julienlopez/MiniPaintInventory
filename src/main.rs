@@ -1,9 +1,9 @@
 #![allow(non_snake_case)]
 
 use dioxus::prelude::*;
-use dioxus_logger::tracing::{info, Level};
+use dioxus_logger::tracing;
 
-#[derive(Clone, Routable, Debug, PartialEq)]
+#[derive(Clone, Routable, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
 enum Route {
     #[route("/")]
     Home {},
@@ -13,13 +13,11 @@ enum Route {
 
 fn main() {
     // Init logger
-    dioxus_logger::init(Level::INFO).expect("failed to init logger");
-    info!("starting app");
-
-    dioxus::launch(App);
+    dioxus_logger::init(tracing::Level::INFO).expect("failed to init logger");
+    tracing::info!("starting app");
+    launch(App);
 }
 
-#[component]
 fn App() -> Element {
     rsx! {
         Router::<Route> {}
@@ -37,6 +35,7 @@ fn Blog(id: i32) -> Element {
 #[component]
 fn Home() -> Element {
     let mut count = use_signal(|| 0);
+    let mut text = use_signal(|| String::from("..."));
 
     rsx! {
         Link {
@@ -49,6 +48,28 @@ fn Home() -> Element {
             h1 { "High-Five counter: {count}" }
             button { onclick: move |_| count += 1, "Up high!" }
             button { onclick: move |_| count -= 1, "Down low!" }
+            button {
+                onclick: move |_| async move {
+                    if let Ok(data) = get_server_data().await {
+                        tracing::info!("Client received: {}", data);
+                        text.set(data.clone());
+                        post_server_data(data).await.unwrap();
+                    }
+                },
+                "Get Server Data"
+            }
+            p { "Server data: {text}"}
         }
     }
+}
+
+#[server(PostServerData)]
+async fn post_server_data(data: String) -> Result<(), ServerFnError> {
+    tracing::info!("Server received: {}", data);
+    Ok(())
+}
+
+#[server(GetServerData)]
+async fn get_server_data() -> Result<String, ServerFnError> {
+    Ok("Hello from the server!".to_string())
 }
