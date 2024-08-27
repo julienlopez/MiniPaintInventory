@@ -3,6 +3,11 @@
 use dioxus::prelude::*;
 use dioxus_logger::tracing;
 
+// pub mod models;
+// pub mod schema;
+
+use std::net::{IpAddr, Ipv4Addr, SocketAddr};
+
 #[derive(Clone, Routable, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
 enum Route {
     #[route("/")]
@@ -15,7 +20,12 @@ fn main() {
     // Init logger
     dioxus_logger::init(tracing::Level::INFO).expect("failed to init logger");
     tracing::info!("starting app");
-    launch(App);
+
+    // launch(App);
+    let cfg = server_only!(dioxus::fullstack::Config::new()
+        .addr(SocketAddr::new(IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0)), 8080)));
+
+    LaunchBuilder::fullstack().with_cfg(cfg).launch(App);
 }
 
 fn App() -> Element {
