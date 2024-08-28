@@ -30,7 +30,7 @@ diesel::table! {
     storage_boxes (id) {
         id -> Int4,
         name -> Text,
-        flags -> Nullable<Text>,
+        flags -> Text,
     }
 }
 

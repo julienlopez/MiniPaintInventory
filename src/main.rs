@@ -3,8 +3,9 @@
 use dioxus::prelude::*;
 use dioxus_logger::tracing;
 
-// pub mod models;
-// pub mod schema;
+pub mod models;
+pub mod queries;
+pub mod schema;
 
 #[derive(Clone, Routable, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
 enum Route {
