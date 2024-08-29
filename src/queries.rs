@@ -1,8 +1,8 @@
-use diesel::query_dsl::methods::SelectDsl;
-use diesel::{PgConnection, QueryResult, RunQueryDsl};
+// use diesel::query_dsl::methods::SelectDsl;
+use diesel::{PgConnection, RunQueryDsl};
 
 use crate::models::*;
-use crate::schema::*;
+// use crate::schema::*;
 
 pub fn list_brands(c: &mut PgConnection) -> Vec<Brand> {
     use crate::schema::brands::dsl::*;
