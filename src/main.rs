@@ -33,6 +33,7 @@ fn main() {
 
 fn App() -> Element {
     rsx! {
+        link { rel: "stylesheet", href: "main.css" }
         Router::<Route> {}
     }
 }
@@ -41,12 +42,10 @@ fn App() -> Element {
 fn NavBar() -> Element {
     rsx! {
         nav {
-            ul {
-                li {
-                    Link { to: Route::Home {}, "Home" }
-                    Link { to: Route::Admin {}, "Admin" }
-                }
-            }
+            id: "navbar",
+                Link { class: "navbar_link", to: Route::Home {}, "Home" }
+
+                Link { class: "navbar_link", to: Route::Admin {}, "Admin" }
         }
         // The Outlet component will render child routes (In this case just the Home component) inside the Outlet component
         Outlet::<Route> {}
