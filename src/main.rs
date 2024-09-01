@@ -6,6 +6,10 @@ use dioxus_logger::tracing;
 pub mod models;
 pub mod queries;
 pub mod schema;
+mod ui;
+
+use crate::ui::admin::Admin;
+use crate::ui::home::Home;
 
 #[derive(Clone, Routable, Debug, PartialEq)]
 enum Route {
@@ -59,20 +63,6 @@ fn PageNotFound(route: Vec<String>) -> Element {
         p { "We are terribly sorry, but the page you requested doesn't exist." }
         pre { color: "red", "log:\nattemped to navigate to: {route:?}" }
     }
-}
-
-#[component]
-fn Home() -> Element {
-    rsx!(
-        div { "Mini Paint Inventory" }
-    )
-}
-
-#[component]
-fn Admin() -> Element {
-    rsx!(
-        div { "Administration page" }
-    )
 }
 
 // #[component]

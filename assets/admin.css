@@ -1,0 +1,22 @@
+#admin_content {
+    background-color: lightblue;
+
+    height: 80%;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+}
+
+#brand_panel {
+    width: 50%;
+    text-align: center;
+}
+
+#paint_panel {
+    width: 50%;
+    text-align: center;
+}
+
+.list {
+    border: solid black 1px;
+}
