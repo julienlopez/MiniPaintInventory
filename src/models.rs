@@ -2,7 +2,9 @@ use diesel::prelude::*;
 
 use crate::schema::*;
 
-#[derive(Queryable)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Queryable, Deserialize, Serialize, Debug, Clone, PartialEq)]
 pub struct Brand {
     pub id: i32,
     pub name: String,
@@ -14,7 +16,7 @@ pub struct NewBrand {
     pub name: String,
 }
 
-#[derive(Queryable)]
+#[derive(Queryable, Deserialize, Serialize)]
 pub struct Paint {
     pub id: i32,
     pub name: String,
@@ -30,7 +32,7 @@ pub struct NewPaint {
     pub color: String,
 }
 
-#[derive(Queryable)]
+#[derive(Queryable, Deserialize, Serialize)]
 pub struct StorageBox {
     pub id: i32,
     pub name: String,

@@ -21,7 +21,6 @@ body {
 
 .navbar_link {
     display: block;
-    /* display: inline-block; */
     cursor: pointer;
     text-decoration: none;
 

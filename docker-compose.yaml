@@ -5,6 +5,10 @@ services:
       - POSTGRES_USER=postgres_user
       - POSTGRES_PASSWORD=postgres_password
       - POSTGRES_DB=mini_paint_inventory
+    volumes:
+      - ./database_data:/var/lib/postgresql/data
+    networks:
+      - app_network
     command: [ "postgres", "-c", "log_statement=all" ]
 
   app:
@@ -13,5 +17,13 @@ services:
       - DATABASE_URL=postgres://postgres_user:postgres_password@postgres/mini_paint_inventory
     ports:
       - 8080:8080
+    networks:
+      - app_network
+    depends_on:
+      - postgres
     volumes:
       - ./:/app/
+
+networks:
+  app_network:
+    driver: bridge

@@ -6,6 +6,7 @@ use dioxus_logger::tracing;
 pub mod models;
 pub mod queries;
 pub mod schema;
+pub mod server_functions;
 mod ui;
 
 use crate::ui::admin::Admin;

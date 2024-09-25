@@ -9,4 +9,4 @@ RUN cargo install dioxus-cli
 
 EXPOSE 8080
 
-CMD [ "dx", "serve", "--platform", "fullstack" ]
+CMD [ "dx", "serve", "--platform", "fullstack", "--hot-reload" ]
