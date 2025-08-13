@@ -2,11 +2,13 @@ FROM rust:latest
 
 WORKDIR /app
 
-COPY . .
-
-RUN cargo install diesel_cli --no-default-features --features postgres
-RUN cargo install dioxus-cli
+RUN cargo install cargo-binstall
+RUN cargo binstall diesel_cli
+RUN cargo binstall dioxus-cli
+RUN rustup target add wasm32-unknown-unknown
 
 EXPOSE 8080
 
-CMD [ "dx", "serve", "--platform", "fullstack", "--hot-reload" ]
+COPY . .
+
+CMD [ "dx", "serve", "--platform", "web", "--hot-reload", "true" ]
