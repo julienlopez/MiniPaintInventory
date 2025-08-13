@@ -1,42 +1,41 @@
 #![allow(non_snake_case)]
 
+use dioxus::html::g::d;
 use dioxus::prelude::*;
 // use dioxus_logger::tracing;
 
 use crate::models::Brand;
-use crate::server_functions::get_brands;
+use crate::server_functions::{get_brands, get_paints};
 
 #[component]
 pub fn Admin() -> Element {
-    rsx!(
-        link { rel: "stylesheet", href: asset!("assets/admin.css") }
-        div { "Administration page" }
-        div { id: "admin_content",
-            BrandsPanel {}
-            PaintsPanel {}
+    let brands = use_resource(get_brands);
+    match &*brands.read_unchecked() {
+        Some(Ok(brands)) => {
+            rsx!(
+                link { rel: "stylesheet", href: asset!("assets/admin.css") }
+                div { "Administration page" }
+                div { id: "admin_content",
+                    BrandsPanel { brands: brands.clone() }
+                    PaintsPanel { brands: brands.clone() }
+                }
+            )
         }
-    )
+        Some(Err(_)) => {
+            rsx! { "Error" }
+        }
+        None => {
+            rsx! { "..." }
+        }
+    }
 }
 
 #[component]
-fn BrandsPanel() -> Element {
-    let brands = use_resource(get_brands);
+fn BrandsPanel(brands: Vec<Brand>) -> Element {
     rsx!(
         div { id: "brand_panel", class: "list",
             "Brands:"
-            match &*brands.read_unchecked() {
-                Some(Ok(brands)) => {
-                    rsx! {
-                        BrandList { brands: brands.clone() }
-                    }
-                }
-                Some(Err(_)) => {
-                    rsx! { "Error" }
-                }
-                None => {
-                    rsx! { "..." }
-                }
-            }
+            BrandList { brands: brands.clone() }
         }
     )
 }
@@ -53,11 +52,62 @@ fn BrandList(brands: Vec<Brand>) -> Element {
 }
 
 #[component]
-fn PaintsPanel() -> Element {
+fn PaintsPanel(brands: Vec<Brand>) -> Element {
+    let mut brand_filter: Signal<Option<i32>> = use_signal(|| None);
     rsx!(
         div { id: "paint_panel", class: "list",
             "Paints"
-            div { id: "paint_list" }
+            BrandsFilters { brands: brands.clone(), brand_filter: brand_filter.clone() }
+            PaintList { brand_filter: brand_filter.clone() }
         }
     )
+}
+
+#[component]
+fn BrandsFilters(brands: Vec<Brand>, brand_filter: Signal<Option<i32>>) -> Element {
+    rsx!(
+        div { id: "brands_filters",
+            for b in brands {
+                div {
+                    class: "brand_filter",
+                    onclick: move |_| {
+                        if brand_filter() == Some(b.id) {
+                            brand_filter.set(None);
+                        } else {
+                            brand_filter.set(Some(b.id));
+                        }
+                    },
+                    {b.name}
+                }
+            }
+        }
+        PaintList { brand_filter: brand_filter.clone() }
+    )
+}
+
+#[component]
+fn PaintList(brand_filter: Signal<Option<i32>>) -> Element {
+    let paints = use_resource(move || get_paints(brand_filter()));
+    match &*paints.read_unchecked() {
+        Some(Ok(paints)) => {
+            rsx!(
+                div { id: "paint_list" }
+                for paint in paints {
+                    div {
+                        class: "paint_box",
+                        style: format!("background-color: {};", paint.color),
+                        div { style: format!("color: {}; filter: invert(100%);", paint.color),
+                            "{paint.name}"
+                        }
+                    }
+                }
+            )
+        }
+        Some(Err(_)) => {
+            rsx! { "Error" }
+        }
+        None => {
+            rsx! { "..." }
+        }
+    }
 }

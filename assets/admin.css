@@ -22,3 +22,33 @@
 .list {
     border: solid black 1px;
 }
+
+#brands_filters {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+
+    width: 100%;
+}
+
+.brand_filter {
+    background-color: lightgray;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+#paint_list {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+}
+
+.paint_box {
+    padding: 2px;
+    border-radius: 3px;
+    border: solid black 1px;
+}
