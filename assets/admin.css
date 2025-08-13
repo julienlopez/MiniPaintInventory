@@ -5,6 +5,8 @@
     width: 100%;
     display: flex;
     align-items: stretch;
+
+    padding: 10px;
 }
 
 #brand_panel {

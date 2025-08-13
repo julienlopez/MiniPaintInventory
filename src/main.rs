@@ -32,7 +32,7 @@ fn main() {
 
 fn App() -> Element {
     rsx! {
-        link { rel: "stylesheet", href: "main.css" }
+        link { rel: "stylesheet", href: asset!("assets/main.css") }
         Router::<Route> {}
     }
 }

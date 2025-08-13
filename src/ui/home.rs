@@ -5,7 +5,7 @@ use dioxus::prelude::*;
 #[component]
 pub fn Home() -> Element {
     rsx!(
-        link { rel: "stylesheet", href: "home.css" }
+        link { rel: "stylesheet", href: asset!("assets/home.css") }
         div { "Mini Paint Inventory" }
     )
 }
