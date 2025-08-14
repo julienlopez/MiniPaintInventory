@@ -2,18 +2,31 @@ use dioxus::prelude::*;
 
 use crate::models::{Brand, Paint};
 
+#[cfg(feature = "server")]
+use diesel::{r2d2, Connection};
+
+#[cfg(feature = "server")]
+thread_local! {
+    pub static DB_POOL: r2d2::Pool<r2d2::ConnectionManager<diesel::PgConnection>> = {
+        dotenv::dotenv().expect ("Failed to read .env file");
+        let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+        println!("Connecting to database at: {}", database_url);
+        let manager = r2d2::ConnectionManager::<diesel::PgConnection>::new(database_url);
+        r2d2::Pool::builder()
+            .build(manager)
+            .expect("Failed to create pool")
+    };
+}
+
 #[server(GetBrands)]
 pub async fn get_brands() -> Result<Vec<Brand>, ServerFnError> {
-    Ok(vec![
-        Brand {
-            id: 0,
-            name: "Citadel".to_string(),
-        },
-        Brand {
-            id: 1,
-            name: "Army Painter".to_string(),
-        },
-    ])
+    DB_POOL.with(|pool| {
+        let conn = &mut pool.get().map_err(|e| ServerFnError::new(e.to_string()))?;
+        crate::queries::list_brands(conn).map_err(|e| {
+            println!("Error fetching brands: {}", e);
+            ServerFnError::new(e.to_string())
+        })
+    })
 }
 
 #[server(GetPaints)]

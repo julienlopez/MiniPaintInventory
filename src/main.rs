@@ -9,6 +9,8 @@ pub mod queries;
 #[cfg(feature = "server")]
 pub mod schema;
 pub mod server_functions;
+#[cfg(feature = "server")]
+pub mod server_side_error;
 mod ui;
 
 use crate::ui::admin::Admin;

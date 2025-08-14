@@ -7,7 +7,7 @@ use crate::schema::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[cfg_attr(feature = "server", derive(Queryable))]
+#[cfg_attr(feature = "server", derive(Queryable, Selectable))]
 pub struct Brand {
     pub id: i32,
     pub name: String,

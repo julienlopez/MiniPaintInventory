@@ -9,11 +9,12 @@ edition = "2021"
 [dependencies]
 serde = { version = "1.0.197", features = ["derive"] }
 dioxus = { version = "0.6.3", features = ["fullstack", "router"] }
-diesel = { version = "2.2.3", features = ["postgres"], optional = true }
+diesel = { version = "2.2.3", features = ["postgres", "r2d2"], optional = true }
 # diesel-async = { version = "0.5.0", features = ["postgres"] }
 getrandom = { version = "0.2", features = ["js"] }
 dioxus-logger = "0.6.2"
 dioxus-web = { version = "0.6.3", features = ["hydrate"], optional = true }
+dotenv = "0.15.0"
 
 [features]
 default = ["web"]
