@@ -19,8 +19,8 @@ pub struct NewBrand {
     pub name: String,
 }
 
-#[derive(Deserialize, Serialize)]
-#[cfg_attr(feature = "server", derive(Queryable))]
+#[derive(Debug, Clone, PartialEq, Deserialize, Serialize)]
+#[cfg_attr(feature = "server", derive(Queryable, Selectable))]
 pub struct Paint {
     pub id: i32,
     pub name: String,

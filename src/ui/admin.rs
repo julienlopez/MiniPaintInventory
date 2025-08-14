@@ -1,7 +1,7 @@
 #![allow(non_snake_case)]
 
-use dioxus::html::g::d;
 use dioxus::prelude::*;
+use dioxus_logger::tracing;
 // use dioxus_logger::tracing;
 
 use crate::models::Brand;
@@ -53,7 +53,7 @@ fn BrandList(brands: Vec<Brand>) -> Element {
 
 #[component]
 fn PaintsPanel(brands: Vec<Brand>) -> Element {
-    let mut brand_filter: Signal<Option<i32>> = use_signal(|| None);
+    let brand_filter: Signal<Option<i32>> = use_signal(|| None);
     rsx!(
         div { id: "paint_panel", class: "list",
             "Paints"
@@ -81,7 +81,6 @@ fn BrandsFilters(brands: Vec<Brand>, brand_filter: Signal<Option<i32>>) -> Eleme
                 }
             }
         }
-        PaintList { brand_filter: brand_filter.clone() }
     )
 }
 
@@ -90,6 +89,8 @@ fn PaintList(brand_filter: Signal<Option<i32>>) -> Element {
     let paints = use_resource(move || get_paints(brand_filter()));
     match &*paints.read_unchecked() {
         Some(Ok(paints)) => {
+            println!("Paints: {:?}", paints.len());
+            tracing::info!("Paints: {:?}", paints.len());
             rsx!(
                 div { id: "paint_list" }
                 for paint in paints {

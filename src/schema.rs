@@ -13,7 +13,7 @@ diesel::table! {
         name -> Text,
         brand -> Int4,
         #[max_length = 9]
-        color -> Nullable<Varchar>,
+        color -> Varchar,
     }
 }
 
