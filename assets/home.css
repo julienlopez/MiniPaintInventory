@@ -8,3 +8,66 @@
 
     padding: 10px;
 }
+
+.box_panel {
+    width: 100%;
+}
+
+.box_panel_header {
+    width: 100%;
+    margin-bottom: 10px;
+    ;
+}
+
+.add_box_button {
+    float: right;
+    border: solid black 1px;
+    border-radius: 100%;
+    padding: 2px;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.box {
+    border: solid black 1px;
+    border-radius: 10px;
+    margin: 2px;
+    margin-bottom: 5px;
+}
+
+.box_name {
+    font-size: 2em;
+}
+
+.box_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    gap: 20px;
+
+    padding: 5px;
+
+    cursor: pointer;
+}
+
+.box_name_group {
+    flex-grow: 1;
+}
+
+.box_body {
+    border-top: 1px solid black;
+    padding: 5px;
+}
+
+.add_paint_to_box_button {
+    border: solid black 1px;
+    border-radius: 100%;
+    padding: 2px;
+    padding-left: 7px;
+    padding-right: 7px;
+
+    cursor: pointer;
+}

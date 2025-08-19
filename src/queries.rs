@@ -1,4 +1,4 @@
-use crate::models::{Brand, Paint};
+use crate::models::{Brand, Paint, StorageBox};
 use crate::server_side_error::Result;
 use diesel::prelude::*;
 use diesel::{PgConnection, QueryDsl, RunQueryDsl};
@@ -18,4 +18,11 @@ pub fn list_paints(connection: &mut PgConnection, brand_filter: Option<i32>) -> 
     } else {
         Ok(paints.select(Paint::as_select()).load(connection)?)
     }
+}
+
+pub fn list_boxes(connection: &mut PgConnection) -> Result<Vec<StorageBox>> {
+    use crate::schema::storage_boxes::dsl::*;
+    Ok(storage_boxes
+        .select(StorageBox::as_select())
+        .load(connection)?)
 }

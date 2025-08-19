@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-use crate::models::{Brand, Paint};
+use crate::models::{Brand, NewStorageBox, Paint, StorageBox};
 
 #[cfg(feature = "server")]
 use diesel::r2d2;
@@ -38,4 +38,20 @@ pub async fn get_paints(brand_filter: Option<i32>) -> Result<Vec<Paint>, ServerF
             ServerFnError::new(e.to_string())
         })
     })
+}
+
+#[server(GetBoxes)]
+pub async fn get_boxes() -> Result<Vec<StorageBox>, ServerFnError> {
+    DB_POOL.with(|pool| {
+        let conn = &mut pool.get().map_err(|e| ServerFnError::new(e.to_string()))?;
+        crate::queries::list_boxes(conn).map_err(|e| {
+            println!("Error fetching storage boxes: {}", e);
+            ServerFnError::new(e.to_string())
+        })
+    })
+}
+
+#[server(PostBox)]
+pub async fn create_box(new_box: NewStorageBox) -> Result<StorageBox, ServerFnError> {
+    todo!("TODO create_box")
 }
