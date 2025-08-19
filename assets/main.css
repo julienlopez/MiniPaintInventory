@@ -38,3 +38,8 @@ body {
 .navbar_link:hover {
     background-color: lightgrey;
 }
+
+.page_title {
+    padding: 10px;
+    font-size: 2em;
+}

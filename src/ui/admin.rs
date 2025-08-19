@@ -14,7 +14,7 @@ pub fn Admin() -> Element {
         Some(Ok(brands)) => {
             rsx!(
                 link { rel: "stylesheet", href: asset!("assets/admin.css") }
-                div { "Administration page" }
+                div { class: "page_title", "Administration page" }
                 div { id: "admin_content",
                     BrandsPanel { brands: brands.clone() }
                     PaintsPanel { brands: brands.clone() }
