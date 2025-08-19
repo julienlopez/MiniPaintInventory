@@ -1,0 +1,1 @@
+ALTER TABLE storage_boxes ADD COLUMN capacity INTEGER NOT NULL

@@ -36,17 +36,21 @@ pub struct NewPaint {
     pub color: String,
 }
 
-#[derive(Deserialize, Serialize)]
-#[cfg_attr(feature = "server", derive(Queryable))]
+#[derive(Deserialize, Serialize, PartialEq, Clone)]
+#[cfg_attr(feature = "server", derive(Queryable, Selectable))]
+#[cfg_attr(feature = "server", diesel(table_name=storage_boxes))]
 pub struct StorageBox {
     pub id: i32,
     pub name: String,
     pub flags: String,
+    pub capacity: i32,
 }
 
+#[derive(Deserialize, Serialize, PartialEq, Clone, Debug)]
 #[cfg_attr(feature = "server", derive(Insertable))]
 #[cfg_attr(feature = "server", diesel(table_name=storage_boxes))]
 pub struct NewStorageBox {
     pub name: String,
     pub flags: String,
+    pub capacity: i32,
 }

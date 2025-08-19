@@ -31,6 +31,7 @@ diesel::table! {
         id -> Int4,
         name -> Text,
         flags -> Text,
+        capacity -> Int4,
     }
 }
 
