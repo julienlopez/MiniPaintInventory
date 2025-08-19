@@ -69,7 +69,7 @@ fn BrandsFilters(brands: Vec<Brand>, brand_filter: Signal<Option<i32>>) -> Eleme
         div { id: "brands_filters",
             for b in brands {
                 div {
-                    class: "brand_filter",
+                    class: if brand_filter() == Some(b.id) { "brand_filter brand_filter_checked" } else { "brand_filter" },
                     onclick: move |_| {
                         if brand_filter() == Some(b.id) {
                             brand_filter.set(None);

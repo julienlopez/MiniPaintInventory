@@ -23,6 +23,10 @@
     border: solid black 1px;
 }
 
+.brand {
+    margin: 10px;
+}
+
 #brands_filters {
     display: flex;
     flex-direction: row;
@@ -37,6 +41,11 @@
     cursor: pointer;
     padding: 5px;
     border-radius: 10px;
+    margin: 10px;
+}
+
+.brand_filter_checked {
+    background-color: gray;
 }
 
 #paint_list {
