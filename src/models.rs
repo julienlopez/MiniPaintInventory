@@ -37,7 +37,7 @@ pub struct NewPaint {
 }
 
 #[derive(Deserialize, Serialize, PartialEq, Clone)]
-#[cfg_attr(feature = "server", derive(Queryable, Selectable))]
+#[cfg_attr(feature = "server", derive(Identifiable, Queryable, Selectable))]
 #[cfg_attr(feature = "server", diesel(table_name=storage_boxes))]
 pub struct StorageBox {
     pub id: i32,
@@ -53,4 +53,30 @@ pub struct NewStorageBox {
     pub name: String,
     pub flags: String,
     pub capacity: i32,
+}
+
+#[derive(Deserialize, Serialize, PartialEq, Clone)]
+pub struct StorageBoxWithContent {
+    pub storage_box: StorageBox,
+    pub content: Vec<PaintWithBrand>,
+}
+
+#[derive(Deserialize, Serialize, PartialEq, Clone)]
+pub struct PaintWithBrand {
+    pub paint: Paint,
+    pub brand: Brand,
+}
+
+#[derive(Debug, Clone)]
+#[cfg_attr(
+    feature = "server",
+    derive(Identifiable, Selectable, Queryable, Associations)
+)]
+#[cfg_attr(feature = "server", diesel(belongs_to(Paint, foreign_key = paint)))]
+#[cfg_attr(feature = "server", diesel(belongs_to(StorageBox, foreign_key = storage_box)))]
+#[cfg_attr(feature = "server", diesel(table_name = paints_2_storage_boxes))]
+pub struct PaintsToStorageBoxes {
+    pub id: i32,
+    pub paint: i32,
+    pub storage_box: i32,
 }
