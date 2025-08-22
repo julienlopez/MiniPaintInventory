@@ -15,11 +15,14 @@ getrandom = { version = "0.2", features = ["js"] }
 dioxus-logger = "0.6.2"
 dioxus-web = { version = "0.6.3", features = ["hydrate"], optional = true }
 dotenv = "0.15.0"
+dioxus-free-icons = { version = "0.9", features = [
+    "material-design-icons-navigation",
+], optional = true }
 
 [features]
 default = ["web"]
 # The feature that are only required for the web = ["dioxus/web"] build target should be optional and only enabled in the web = ["dioxus/web"] feature
-web = ["dioxus/web", "dioxus-web"]
+web = ["dioxus/web", "dioxus-web", "dioxus-free-icons"]
 # The feature that are only required for the desktop = ["dioxus/desktop"] build target should be optional and only enabled in the desktop = ["dioxus/desktop"] feature
 desktop = ["dioxus/desktop"]
 # The feature that are only required for the mobile = ["dioxus/mobile"] build target should be optional and only enabled in the mobile = ["dioxus/mobile"] feature

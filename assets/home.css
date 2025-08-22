@@ -71,3 +71,63 @@
 
     cursor: pointer;
 }
+
+.add_paint_to_box_modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    padding-top: 10%;
+    /* Enable scroll if needed */
+    overflow: auto;
+    display: block;
+}
+
+.add_paint_to_box_modal_content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    margin: auto;
+}
+
+.add_paint_to_box_form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.add_paint_to_box_modal_close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.add_paint_to_box_modal_close:hover,
+.add_paint_to_box_modal_close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.confirm_add_paint_to_box_button {
+    border-radius: 20%;
+    padding: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-top: 20px;
+
+    background-color: lightgrey;
+
+    cursor: pointer;
+}
