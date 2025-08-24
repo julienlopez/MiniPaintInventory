@@ -19,33 +19,8 @@
     text-align: center;
 }
 
-.list {
-    border: solid black 1px;
-}
-
 .brand {
     margin: 10px;
-}
-
-#brands_filters {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-
-    width: 100%;
-}
-
-.brand_filter {
-    background-color: lightgray;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 10px;
-    margin: 10px;
-}
-
-.brand_filter_checked {
-    background-color: gray;
 }
 
 #paint_list {

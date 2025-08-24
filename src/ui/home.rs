@@ -1,7 +1,10 @@
 #![allow(non_snake_case)]
 
+use dioxus::html::button::disabled;
 use dioxus::prelude::*;
 
+use crate::server_functions::get_brands;
+use crate::ui::components::paints_panel::PaintsPanel;
 use crate::{
     models::StorageBox,
     server_functions::{get_box_with_content, get_boxes},
@@ -100,6 +103,8 @@ fn BoxSummary(r#box: StorageBox) -> Element {
 
 #[component]
 fn AddPaintToBoxPopup(show_add_paint_to_box: Signal<bool>, r#box: StorageBox) -> Element {
+    let brands = use_resource(get_brands);
+    let mut selected_paint = use_signal(|| None as Option<i32>);
     rsx!(
         div { class: "add_paint_to_box_modal",
             div { class: "modal_background" }
@@ -113,17 +118,37 @@ fn AddPaintToBoxPopup(show_add_paint_to_box: Signal<bool>, r#box: StorageBox) ->
                 }
                 div { class: "add_paint_to_box_form",
                     div { "Add paint to : {r#box.name}" }
-                    div { "Paints" }
-                    div {
+                    match &*brands.read_unchecked() {
+                        Some(Ok(brands)) => {
+                            rsx! {
+                                PaintsPanel {
+                                    id: "add_paint_to_box_paints_panel",
+                                    brands: brands.clone(),
+                                    selected_paint,
+                                }
+                            }
+                        }
+                        Some(Err(_)) => {
+                            rsx! { "Error" }
+                        }
+                        None => {
+                            rsx! { "..." }
+                        }
+                    }
+                    input {
                         class: "confirm_add_paint_to_box_button",
                         onclick: move |_| {
-                            info!("Add paint to box ");
-                            show_add_paint_to_box.set(false);
+                            if let Some(paint) = selected_paint() {
+                                info!("Add paint to box {} {}", r#box.id, paint);
+                                selected_paint.set(None);
+                                show_add_paint_to_box.set(false);
+                            }
                         },
-                        "Add"
+                        disabled: selected_paint().is_none(),
+                        r#type: "submit",
+                        value: "Add Paint",
                     }
                 }
-
             }
         }
     )

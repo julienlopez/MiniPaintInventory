@@ -131,3 +131,8 @@
 
     cursor: pointer;
 }
+
+#add_paint_to_box_paints_panel {
+    width: 100%;
+    padding: 10px;
+}
