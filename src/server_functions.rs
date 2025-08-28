@@ -66,3 +66,15 @@ pub async fn get_box_with_content(box_id: i32) -> Result<StorageBoxWithContent, 
         })
     })
 }
+
+#[server(AddPaintToBox)]
+pub async fn add_paint_to_box(box_id: i32, paint_id: i32) -> Result<(), ServerFnError> {
+    println!("Adding paint #{paint_id} to box #{box_id}");
+    DB_POOL.with(|pool| {
+        let conn = &mut pool.get().map_err(|e| ServerFnError::new(e.to_string()))?;
+        crate::queries::add_paint_to_box(conn, box_id, paint_id).map_err(|e| {
+            println!("Error adding paint #{paint_id} to box #{box_id}: {}", e);
+            ServerFnError::new(e.to_string())
+        })
+    })
+}

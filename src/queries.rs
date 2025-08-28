@@ -61,3 +61,13 @@ pub fn get_box_with_content(
             .collect(),
     })
 }
+
+pub fn add_paint_to_box(connection: &mut PgConnection, box_id: i32, paint_id: i32) -> Result<()> {
+    use crate::schema::paints_2_storage_boxes::dsl::*;
+    let new_link = crate::models::NewPaintsToStorageBoxes::new(paint_id, box_id);
+    println!("Adding paint to box: {:?}", new_link);
+    diesel::insert_into(paints_2_storage_boxes)
+        .values(&new_link)
+        .execute(connection)?;
+    Ok(())
+}

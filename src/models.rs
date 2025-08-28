@@ -80,3 +80,22 @@ pub struct PaintsToStorageBoxes {
     pub paint: i32,
     pub storage_box: i32,
 }
+
+#[derive(Debug)]
+#[cfg_attr(feature = "server", derive(Insertable))]
+#[cfg_attr(feature = "server", diesel(table_name = paints_2_storage_boxes))]
+pub struct NewPaintsToStorageBoxes {
+    pub paint: i32,
+    pub storage_box: i32,
+    pub number: i32,
+}
+
+impl NewPaintsToStorageBoxes {
+    pub fn new(paint: i32, storage_box: i32) -> Self {
+        Self {
+            paint,
+            storage_box,
+            number: 1,
+        }
+    }
+}

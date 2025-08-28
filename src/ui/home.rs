@@ -1,13 +1,12 @@
 #![allow(non_snake_case)]
 
-use dioxus::html::button::disabled;
 use dioxus::prelude::*;
 
 use crate::server_functions::get_brands;
 use crate::ui::components::paints_panel::PaintsPanel;
 use crate::{
     models::StorageBox,
-    server_functions::{get_box_with_content, get_boxes},
+    server_functions::{add_paint_to_box, get_box_with_content, get_boxes},
 };
 
 use dioxus::logger::tracing::info;
@@ -104,7 +103,7 @@ fn BoxSummary(r#box: StorageBox) -> Element {
 #[component]
 fn AddPaintToBoxPopup(show_add_paint_to_box: Signal<bool>, r#box: StorageBox) -> Element {
     let brands = use_resource(get_brands);
-    let mut selected_paint = use_signal(|| None as Option<i32>);
+    let selected_paint = use_signal(|| None as Option<i32>);
     rsx!(
         div { class: "add_paint_to_box_modal",
             div { class: "modal_background" }
@@ -138,10 +137,15 @@ fn AddPaintToBoxPopup(show_add_paint_to_box: Signal<bool>, r#box: StorageBox) ->
                     input {
                         class: "confirm_add_paint_to_box_button",
                         onclick: move |_| {
+                            info!("Add paint button clicked");
                             if let Some(paint) = selected_paint() {
-                                info!("Add paint to box {} {}", r#box.id, paint);
-                                selected_paint.set(None);
-                                show_add_paint_to_box.set(false);
+                                spawn(async move {
+                                    info!("Add paint button async");
+                                    match add_paint_to_box(r#box.id, paint).await {
+                                        Ok(_) => info!("Paint added successfully"),
+                                        Err(e) => info!("Error adding paint to box: {}", e),
+                                    }
+                                });
                             }
                         },
                         disabled: selected_paint().is_none(),
