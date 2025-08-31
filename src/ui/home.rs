@@ -5,7 +5,7 @@ use dioxus::prelude::*;
 use crate::server_functions::get_brands;
 use crate::ui::components::paints_panel::PaintsPanel;
 use crate::{
-    models::StorageBox,
+    models::{Paint, StorageBox},
     server_functions::{add_paint_to_box, get_box_with_content, get_boxes},
 };
 
@@ -162,9 +162,13 @@ fn BoxContent(box_id: i32) -> Element {
     let content = use_resource(move || get_box_with_content(box_id));
     match &*content.read_unchecked() {
         Some(Ok(content)) => {
-            rsx!(div {
-                class: "box_content"
-            })
+            rsx!(
+                div { class: "box_content",
+                    for c in content.content.iter() {
+                        PaintBox { paint: c.paint.clone() }
+                    }
+                }
+            )
         }
         Some(Err(_)) => {
             rsx! { "Error" }
@@ -173,4 +177,17 @@ fn BoxContent(box_id: i32) -> Element {
             rsx! { "..." }
         }
     }
+}
+
+#[component]
+fn PaintBox(paint: Paint) -> Element {
+    rsx!(
+        div { class: "paint_box",
+            div {
+                class: "paint_color",
+                style: format!("background-color: {};", paint.color),
+            }
+            div { class: "paint_name", "{paint.name}" }
+        }
+    )
 }

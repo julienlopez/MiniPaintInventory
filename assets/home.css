@@ -136,3 +136,34 @@
     width: 100%;
     padding: 10px;
 }
+
+.box_content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.paint_box {
+    border: solid black 1px;
+    border-radius: 10px;
+
+    width: 20%;
+    height: 100px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.paint_color {
+    width: 20%;
+    height: 20%;
+    border: solid black 1px;
+    border-radius: 50%;
+}
+
+.paint_name {
+    margin-top: 5px;
+    font-size: 0.9em;
+}
